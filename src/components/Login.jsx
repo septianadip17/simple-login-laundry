@@ -8,26 +8,21 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const config = {
-      method: "post",
-      maxBodyLength: Infinity, 
-      url: "https://dev.laundryaku.com/api/v1/security/login",
-      headers: {
-        Accept: "application/json",
-        Authorization: "Basic YWRtaW5AZXhhbXBsZS5jb206U2F5YUFkbWlu",
-      },
-      data: {
+    try {
+      const response = await axios.post("https://dev.laundryaku.com/api/v1/security/login", {
         email: email,
         password: password,
-      },
-    };
+      }, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
 
-    try {
-      const response = await axios.request(config);
       console.log(response.data);
-      console.log("login berhasil")
+      console.log("login berhasil");
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data); // Log data error response
       setError("Login failed. Please check your credentials.");
     }
   };
