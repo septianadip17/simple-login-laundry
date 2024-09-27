@@ -5,19 +5,20 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const config = {
       method: "post",
-      maxBodyLength: Infinity, 
+      maxBodyLength: Infinity,
       url: "https://dev.laundryaku.com/api/v1/security/login",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      data: {
-        email: email,
+      auth: {
+        username: email,
         password: password,
       },
     };
@@ -25,12 +26,13 @@ const Login = () => {
     try {
       const response = await axios.request(config);
       console.log(response.data);
-      console.log("login berhasil");
       const token = response.data.data.token;
       console.log("Token:", token);
+      console.log("ini adalah response:", response);
+      setSuccessMessage("Login berhasil!");
     } catch (error) {
-      console.log(error.response); 
-      setError("Login failed. Please check your credentials.");
+      console.log(error.response);
+      setError("Login gagal. Silakan periksa kredensial Anda.");
     }
   };
 
@@ -39,6 +41,9 @@ const Login = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {successMessage && (
+          <p className="text-green-500 text-center mb-4">{successMessage}</p>
+        )}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label
