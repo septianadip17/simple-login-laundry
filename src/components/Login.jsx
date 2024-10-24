@@ -7,6 +7,8 @@ const Login = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+
+  // button handlers
   const handleLogin = async (e) => {
     e.preventDefault();
     const config = {
